@@ -31,6 +31,7 @@ const SettingsForm: FunctionComponent = (): JSX.Element => {
     const updateState = (field: string) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const state = userInfo;
         const newState = {...state, [field]: event.target.value}
+        setUserInfo(newState);
     };
 
     const submitForm = async (event: FormEvent) => {

@@ -72,8 +72,6 @@ const UpdateArticleEditor: NextPage<UpdateArticleEditorProps> = ({article: initi
 
         setLoading(false);
 
-        await mutate(`${SERVER_BASE_URL}/articles`);
-
         if (status > 204) {
             setErrors(data.errors);
         }
