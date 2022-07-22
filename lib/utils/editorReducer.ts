@@ -1,34 +1,43 @@
-import {ArticleType} from "../types/articleType";
+import {ArticleType, ArticleDispatchType} from "../types/articleType";
 
-interface ActionType {
-    type: string,
-    text: string,
-    tag: string
+export enum Actions {
+    SET_TITLE,
+    SET_DESCRIPTION,
+    SET_BODY,
+    ADD_TAG,
+    REMOVE_TAG
 }
 
-const editorReducer = (state: ArticleType, action: ActionType) => {
+type ActionType =
+    | { type: Actions.SET_TITLE, text: string }
+    | { type: Actions.SET_DESCRIPTION, text: string }
+    | { type: Actions.SET_BODY, text: string }
+    | { type: Actions.ADD_TAG, tag: string }
+    | { type: Actions.REMOVE_TAG, tag: string }
+
+const editorReducer = (state: ArticleDispatchType, action: ActionType) => {
     switch (action.type) {
-        case "SET_TITLE":
+        case Actions.SET_TITLE:
             return {
                 ...state,
                 title: action.text
             };
-        case "SET_DESCRIPTION":
+        case Actions.SET_DESCRIPTION:
             return {
                 ...state,
                 description: action.text
             };
-        case "SET_BODY":
+        case Actions.SET_BODY:
             return {
                 ...state,
                 body: action.text
             };
-        case "ADD_TAG":
+        case Actions.ADD_TAG:
             return {
                 ...state,
                 tagList: state.tagList.concat(action.tag)
             };
-        case "REMOVE_TAG":
+        case Actions.REMOVE_TAG:
             return {
                 ...state,
                 tagList: state.tagList.filter(tag => tag !== action.tag)

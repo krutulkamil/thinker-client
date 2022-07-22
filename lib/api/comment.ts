@@ -20,7 +20,7 @@ const CommentAPI = {
     },
 
     forArticle: async (slug: string) => {
-        await axios.get(`${SERVER_BASE_URL}/articles/${slug}/comments`)
+        return await axios.get(`${SERVER_BASE_URL}/articles/${slug}/comments`)
     }
 };
 

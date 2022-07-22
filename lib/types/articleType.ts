@@ -6,6 +6,13 @@ export interface Article {
     article: ArticleType;
 }
 
+export interface ArticleDispatchType {
+    title: string
+    description: string,
+    body: string,
+    tagList: string[]
+}
+
 export type ArticleType = {
     tagList: string[],
     createdAt: number,

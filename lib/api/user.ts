@@ -20,14 +20,18 @@ const UserAPI = {
 
     login: async (email: string, password: string) => {
         try {
-            return await axios.post(`${SERVER_BASE_URL}/users/login`, JSON.stringify({user: {email, password}}),
+            const response = await axios.post(
+                `${SERVER_BASE_URL}/users/login`,
+                JSON.stringify({ user: { email, password } }),
                 {
                     headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
-        } catch (error) {
-            return (error as AxiosError).response;
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            return response;
+        } catch (error: any) {
+            return error.response;
         }
     },
 
@@ -38,8 +42,8 @@ const UserAPI = {
                     "Content-Type": "application/json"
                 }
             });
-        } catch (error) {
-            return (error as AxiosError).response;
+        } catch (error: any) {
+            return error.response;
         }
     },
 
@@ -86,7 +90,7 @@ const UserAPI = {
     },
 
     get: async (username: string) => {
-        await axios.get(`${SERVER_BASE_URL}/profiles/${username}`)
+        return await axios.get<UserType>(`${SERVER_BASE_URL}/profiles/${username}`)
     }
 };
 

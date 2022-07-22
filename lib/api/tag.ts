@@ -3,7 +3,7 @@ import {SERVER_BASE_URL} from "../utils/constant";
 
 const TagAPI = {
     getAll: async () => {
-        await axios.get(`${SERVER_BASE_URL}/tags`);
+        return await axios.get(`${SERVER_BASE_URL}/tags`);
     }
 };
 
