@@ -7,7 +7,9 @@ const CommentAPI = {
         try {
             return await axios.post(`${SERVER_BASE_URL}/articles/${slug}/comments`, JSON.stringify({comment}));
         } catch (error) {
-            return (error as AxiosError).response;
+            if (axios.isAxiosError(error)) {
+                return error.response
+            }
         }
     },
 
@@ -15,7 +17,9 @@ const CommentAPI = {
         try {
             return await axios.delete(`${SERVER_BASE_URL}/articles/${slug}/comments/${commentId}`);
         } catch (error) {
-            return (error as AxiosError).response;
+            if (axios.isAxiosError(error)) {
+                return error.response
+            }
         }
     },
 

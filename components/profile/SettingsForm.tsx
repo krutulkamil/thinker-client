@@ -7,6 +7,7 @@ import checkLogin from "../../lib/utils/checkLogin";
 import {SERVER_BASE_URL} from "../../lib/utils/constant";
 import storage from "../../lib/utils/storage";
 import {UserType} from "../../lib/types/userType";
+import UserAPI from "../../lib/api/user";
 
 const SettingsForm: FunctionComponent = (): JSX.Element => {
     const [isLoading, setLoading] = useState<boolean>(false);
@@ -44,17 +45,15 @@ const SettingsForm: FunctionComponent = (): JSX.Element => {
             delete user.password;
         }
 
-        const {data, status} = await axios.put(`${SERVER_BASE_URL}/user`, JSON.stringify({user}), {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Token ${currentUser?.token}`
-            }
-        });
+        const {data, status} = await UserAPI.save(user);
+
+        console.log(status, 'status')
+        console.log(data, 'data');
 
         setLoading(false);
 
         if (status > 204) {
-            setErrors(data.errors.body);
+            setErrors(data.errors);
         }
 
         if (data?.user) {

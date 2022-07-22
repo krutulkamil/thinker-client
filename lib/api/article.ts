@@ -68,8 +68,10 @@ const ArticleAPI = {
             });
 
             return {data, status};
-        } catch (error: any) {
-            return error.response;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                return error.response
+            }
         }
     }
 };

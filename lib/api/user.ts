@@ -14,7 +14,9 @@ const UserAPI = {
                 }
             });
         } catch (error) {
-            return (error as AxiosError).response;
+            if (axios.isAxiosError(error)) {
+                return error.response
+            }
         }
     },
 
@@ -30,8 +32,10 @@ const UserAPI = {
                 }
             );
             return response;
-        } catch (error: any) {
-            return error.response;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                return error.response
+            }
         }
     },
 
@@ -42,20 +46,28 @@ const UserAPI = {
                     "Content-Type": "application/json"
                 }
             });
-        } catch (error: any) {
-            return error.response;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                return error.response
+            }
         }
     },
 
-    save: async (user: UserType) => {
+    save: async (user: Partial<UserType>) => {
+        const userToEdit: UserType = JSON.parse(window.localStorage.getItem("user") || "");
+        const token = userToEdit?.token;
+
         try {
             return await axios.put(`${SERVER_BASE_URL}/user`, JSON.stringify({user}), {
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    Authorization: `Token ${encodeURIComponent(token)}`
                 }
             });
         } catch (error) {
-            return (error as AxiosError).response;
+            if (axios.isAxiosError(error)) {
+                return error.response
+            }
         }
     },
 
@@ -70,7 +82,9 @@ const UserAPI = {
                 }
             });
         } catch (error) {
-            return (error as AxiosError).response;
+            if (axios.isAxiosError(error)) {
+                return error.response
+            }
         }
     },
 
@@ -85,7 +99,9 @@ const UserAPI = {
                 }
             });
         } catch (error) {
-            return (error as AxiosError).response;
+            if (axios.isAxiosError(error)) {
+                return error.response
+            }
         }
     },
 
