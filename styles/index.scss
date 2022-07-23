@@ -1,6 +1,31 @@
 // SETTINGS
+@import "settings/base";
+@import "settings/columns";
+@import "settings/tables";
+@import "settings/forms";
+@import "settings/buttons";
+@import "settings/inputs";
+@import "settings/nav";
+@import "settings/display";
+@import "settings/lists";
+@import "settings/backgrounds";
+@import "settings/texts";
 
 // ELEMENTS
-@import "elements/base";
+@import "elements/logo";
 @import "elements/error";
 @import "elements/spinner";
+@import "elements/tag";
+@import "elements/navbar";
+@import "elements/editor";
+@import "elements/profile";
+@import "elements/article";
+@import "elements/home";
+@import "elements/banner";
+@import "elements/base";
+@import "elements/preview";
+@import "elements/buttons";
+@import "elements/footer";
+
+// UTILS
+@import "utils/rest";

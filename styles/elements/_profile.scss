@@ -1,0 +1,33 @@
+.profile-page .user-info{
+  text-align:center;
+  background:#f3f3f3;
+  padding:2rem 0 1rem
+}
+
+.profile-page .user-info .user-img{
+  width:100px;
+  height:100px;
+  border-radius:100px;
+  margin-bottom:1rem
+}
+
+.profile-page .user-info h4{
+  font-weight:700
+}
+
+.profile-page .user-info p{
+  margin:0 auto .5rem;
+  color:#aaa;
+  max-width:450px;
+  font-weight:300
+}
+
+.profile-page .user-info .action-btn{
+  float:right;
+  color:#999;
+  border:1px solid #999
+}
+
+.profile-page .articles-toggle{
+  margin:1.5rem 0 -1px
+}

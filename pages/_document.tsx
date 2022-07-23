@@ -13,7 +13,6 @@ class MyDocument extends Document {
         return (
             <Html>
                 <Head>
-                    <link rel="stylesheet" href="https://demo.productionready.io/main.css" />
                     <link
                         rel="stylesheet"
                         href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
