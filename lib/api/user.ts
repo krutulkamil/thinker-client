@@ -14,9 +14,8 @@ const UserAPI = {
                 }
             });
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                return error.response
-            }
+            const {data, status} = (error as AxiosError).response!;
+            return { data, status };
         }
     },
 
@@ -33,9 +32,8 @@ const UserAPI = {
             );
             return response;
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                return error.response
-            }
+            const {data, status} = (error as AxiosError).response!;
+            return { data, status };
         }
     },
 
@@ -47,9 +45,8 @@ const UserAPI = {
                 }
             });
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                return error.response
-            }
+            const {data, status} = (error as AxiosError).response!;
+            return { data, status };
         }
     },
 
@@ -65,9 +62,8 @@ const UserAPI = {
                 }
             });
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                return error.response
-            }
+            const {data, status} = (error as AxiosError).response!;
+            return { data, status };
         }
     },
 
@@ -82,9 +78,8 @@ const UserAPI = {
                 }
             });
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                return error.response
-            }
+            const {data, status} = (error as AxiosError).response!;
+            return { data, status };
         }
     },
 
@@ -99,9 +94,8 @@ const UserAPI = {
                 }
             });
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                return error.response
-            }
+            const {data, status} = (error as AxiosError).response!;
+            return { data, status };
         }
     },
 

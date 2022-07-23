@@ -47,9 +47,6 @@ const SettingsForm: FunctionComponent = (): JSX.Element => {
 
         const {data, status} = await UserAPI.save(user);
 
-        console.log(status, 'status')
-        console.log(data, 'data');
-
         setLoading(false);
 
         if (status > 204) {

@@ -69,9 +69,8 @@ const ArticleAPI = {
 
             return {data, status};
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                return error.response
-            }
+            const {data, status} = (error as AxiosError).response!;
+            return { data, status };
         }
     }
 };

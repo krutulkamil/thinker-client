@@ -5,9 +5,10 @@ import SettingsForm from "../../components/profile/SettingsForm";
 import checkLogin from "../../lib/utils/checkLogin";
 import storage from "../../lib/utils/storage";
 import { NextPage } from "next";
+import {ServerResponse} from "http";
 
 interface SettingsProps {
-    res: any
+    res: ServerResponse | undefined
 }
 
 const Settings: NextPage<SettingsProps> = ({ res }): JSX.Element => {
@@ -51,9 +52,6 @@ const Settings: NextPage<SettingsProps> = ({ res }): JSX.Element => {
 };
 
 Settings.getInitialProps = async ({ res }) => {
-
-    console.log(res);
-
     return { res };
 };
 

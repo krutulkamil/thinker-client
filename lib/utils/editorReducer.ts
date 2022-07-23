@@ -1,4 +1,4 @@
-import {ArticleType, ArticleDispatchType} from "../types/articleType";
+import {ArticleDispatchType} from "../types/articleType";
 
 export enum Actions {
     SET_TITLE,
