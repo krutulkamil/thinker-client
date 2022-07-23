@@ -1,12 +1,13 @@
 import React, {useState, useCallback, FunctionComponent, ChangeEvent, FormEvent} from "react";
 import {useRouter} from "next/router";
-import axios from "axios";
 import useSWR, {useSWRConfig} from "swr";
 import CustomImage from "../common/CustomImage";
 import CustomLink from "../common/CustomLink";
 import checkLogin from "../../lib/utils/checkLogin";
 import {SERVER_BASE_URL} from "../../lib/utils/constant";
 import storage from "../../lib/utils/storage";
+import ListErrors from "../common/ListErrors";
+import CommentAPI from "../../lib/api/comment";
 
 const CommentInput: FunctionComponent = (): JSX.Element => {
     const {data: currentUser} = useSWR("user", storage);
@@ -17,6 +18,7 @@ const CommentInput: FunctionComponent = (): JSX.Element => {
 
     const [content, setContent] = useState<string>("");
     const [isLoading, setLoading] = useState<boolean>(false);
+    const [errors, setErrors] = useState([] as unknown as Record<string, string>);
 
     const handleChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
         setContent(event.target.value);
@@ -25,16 +27,16 @@ const CommentInput: FunctionComponent = (): JSX.Element => {
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoading(true);
-        await axios.post(
-            `${SERVER_BASE_URL}/articles/${encodeURIComponent(String(pid))}/comments`,
-            JSON.stringify({comment: {body: content}}),
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Token ${encodeURIComponent(currentUser?.token)}`
-                }
-            });
+        const { data, status } = await CommentAPI.create(String(pid), {body: content}, currentUser?.token)
+
         setLoading(false);
+
+        if (status > 204) {
+            setErrors(data.errors);
+        } else {
+            setErrors([] as unknown as Record<string, string>);
+        }
+
         setContent("");
         await mutate(`${SERVER_BASE_URL}/articles/${pid}/comments`);
     };
@@ -55,8 +57,10 @@ const CommentInput: FunctionComponent = (): JSX.Element => {
     }
 
     return (
-        <form className="card comment-form" onSubmit={handleSubmit}>
-            <div className="card-block">
+        <>
+            {errors && <ListErrors errors={errors} />}
+            <form className="card comment-form" onSubmit={handleSubmit}>
+                <div className="card-block">
                 <textarea rows={3}
                           className="form-control"
                           placeholder="Write a comment..."
@@ -64,18 +68,19 @@ const CommentInput: FunctionComponent = (): JSX.Element => {
                           onChange={handleChange}
                           disabled={isLoading}
                 />
-            </div>
-            <div className="card-footer">
-                <CustomImage
-                    src={currentUser?.image}
-                    alt="Comment author's profile image"
-                    className="comment-author-img"
-                />
-                <button className="btn btn-sm btn-primary" type="submit">
-                    Post Comment
-                </button>
-            </div>
-        </form>
+                </div>
+                <div className="card-footer">
+                    <CustomImage
+                        src={currentUser?.image}
+                        alt="Comment author's profile image"
+                        className="comment-author-img"
+                    />
+                    <button className="btn btn-sm btn-primary" type="submit">
+                        Post Comment
+                    </button>
+                </div>
+            </form>
+        </>
     );
 };
 

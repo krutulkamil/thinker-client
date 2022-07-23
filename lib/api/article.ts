@@ -24,8 +24,12 @@ const ArticleAPI = {
         });
     },
 
-    favorite: async (slug: string) => {
-        return await axios.post(`${SERVER_BASE_URL}/articles/${slug}/favorite`);
+    favorite: async (slug: string, token: string) => {
+        return await axios.post(`${SERVER_BASE_URL}/articles/${slug}/favorite`, {},{
+            headers: {
+                Authorization: `Token ${token}`
+            }
+        });
     },
 
     favoritedBy: async (author: string, limit = DEFAULT_LIMIT, page: number) => {
@@ -40,22 +44,27 @@ const ArticleAPI = {
         return await axios.get(`${SERVER_BASE_URL}/articles/${slug}`);
     },
 
-    unfavorite: async (slug: string) => {
-        return await axios.delete(`${SERVER_BASE_URL}/articles/${slug}/favorite`);
-    },
-
-    update: async (article: ArticleType, token: string) => {
-        const {
-            data,
-            status
-        } = await axios.put(`${SERVER_BASE_URL}/articles/${article.slug}`, JSON.stringify({article}), {
+    unfavorite: async (slug: string, token: string) => {
+        return await axios.delete(`${SERVER_BASE_URL}/articles/${slug}/favorite`, {
             headers: {
-                "Content-Type": "application/json",
-                Authorization: `Token ${encodeURIComponent(token)}`
+                Authorization: `Token ${token}`
             }
         });
+    },
 
-        return {data, status};
+    update: async (slug: string, article: Partial<ArticleType>, token: string) => {
+        try {
+            const { data, status } = await axios.put(`${SERVER_BASE_URL}/articles/${slug}`, JSON.stringify({article}), {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Token ${token}`
+                }
+            });
+            return {data, status};
+        } catch (error) {
+            const {data, status} = (error as AxiosError).response!;
+            return { data, status };
+        }
     },
 
     create: async (article: ArticleDispatchType, token: string) => {

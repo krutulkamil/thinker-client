@@ -1,10 +1,8 @@
 import React, {useState, useEffect, ChangeEvent, FormEvent, FunctionComponent} from "react";
 import Router from "next/router";
-import axios from "axios";
 import useSWR, {useSWRConfig} from "swr";
 import ListErrors from "../common/ListErrors";
 import checkLogin from "../../lib/utils/checkLogin";
-import {SERVER_BASE_URL} from "../../lib/utils/constant";
 import storage from "../../lib/utils/storage";
 import {UserType} from "../../lib/types/userType";
 import UserAPI from "../../lib/api/user";

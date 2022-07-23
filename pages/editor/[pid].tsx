@@ -1,7 +1,7 @@
 import React, {useState, useReducer, ChangeEvent, FormEvent} from "react";
 import Router, {useRouter} from "next/router";
 import axios from "axios";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 import ListErrors from "../../components/common/ListErrors";
 import TagInput from "../../components/editor/TagInput";
 import ArticleAPI from "../../lib/api/article";
@@ -28,7 +28,6 @@ const UpdateArticleEditor: NextPage<UpdateArticleEditorProps> = ({article: initi
     const [posting, dispatch] = useReducer(editorReducer, initialState);
     const {data: currentUser} = useSWR("user", storage);
     const router = useRouter();
-    const { mutate } = useSWRConfig();
     const {query: {pid}} = router;
 
     const handleTitle = (event: ChangeEvent<HTMLInputElement>) => dispatch({
@@ -60,23 +59,16 @@ const UpdateArticleEditor: NextPage<UpdateArticleEditorProps> = ({article: initi
         event.preventDefault();
         setLoading(true);
 
-        const {
-            data,
-            status
-        } = await axios.put(`${SERVER_BASE_URL}/articles/${pid}`, JSON.stringify({article: posting}), {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Token ${encodeURIComponent(currentUser?.token)}`
-            }
-        });
+        const { data, status } = await ArticleAPI.update(String(pid), posting, currentUser?.token);
 
         setLoading(false);
 
         if (status > 204) {
             setErrors(data.errors);
+        } else {
+            setErrors([] as unknown as Record<string, string>)
+            await Router.push(`/article/${pid}`);
         }
-
-        await Router.push(`/article/${pid}`);
     };
 
     return (

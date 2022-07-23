@@ -1,15 +1,14 @@
 import React, {FunctionComponent, useState} from "react";
 import Link from "next/link";
 import Router from "next/router";
-import axios from "axios";
 import useSWR from "swr";
 import CustomLink from "../common/CustomLink";
 import CustomImage from "../common/CustomImage";
 import {usePageDispatch} from "../../lib/context/PageContext";
 import checkLogin from "../../lib/utils/checkLogin";
-import {SERVER_BASE_URL} from "../../lib/utils/constant";
 import storage from "../../lib/utils/storage";
 import {ArticleType} from "../../lib/types/articleType";
+import ArticleAPI from "../../lib/api/article";
 
 const FAVORITED_CLASS = "btn btn-sm btn-primary";
 const NOT_FAVORITED_CLASS = "btn btn-sm btn-outline-primary";
@@ -42,17 +41,9 @@ const ArticlePreview: FunctionComponent<ArticlePreviewProps> = ({article}): JSX.
 
         try {
             if (preview.favorited) {
-                await axios.delete(`${SERVER_BASE_URL}/articles/${slug}/favorite`, {
-                    headers: {
-                        Authorization: `Token ${currentUser?.token}`
-                    }
-                })
+                await ArticleAPI.unfavorite(slug, currentUser?.token);
             } else {
-                await axios.post(`${SERVER_BASE_URL}/articles/${slug}/favorite`, {}, {
-                    headers: {
-                        Authorization: `Token ${currentUser?.token}`
-                    }
-                })
+                await ArticleAPI.favorite(slug, currentUser?.token);
             }
         } catch {
             setPreview({
